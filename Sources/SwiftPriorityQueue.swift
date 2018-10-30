@@ -97,10 +97,15 @@ public struct PriorityQueue<T: Comparable> {
     /// - parameter item: The item to remove the first occurrence of.
     public mutating func remove(_ item: T) {
         if let index = heap.index(of: item) {
-            swap(&heap[index], &heap[heap.count - 1])
+            let isLastItem = index < (heap.count - 1)
+            if (isLastItem) {
+                swap(&heap[index], &heap[heap.count - 1])
+            }
             heap.removeLast()
-            swim(index)
-            sink(index)
+            if (isLastItem) {
+                swim(index)
+                sink(index)
+            }
         }
     }
     
